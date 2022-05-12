@@ -2,12 +2,16 @@
 //
 
 #include <iostream>
+#include <vector>
 #include "V1.h"
 #include "V2.h"
 #include "V12.h"
 #include "Vogel.h"
 #include "Singvogel.h"
 #include "SprechenderSingvogel.h"
+#include "A.h"
+#include "B.h"
+#include "C.h"
 
 using namespace std;
 
@@ -95,6 +99,63 @@ int main()
 	v12.~V12();
 
 	v12.K1_f();
+
+	cout << endl;
+
+	vector<Vogel*> v = vector<Vogel*>();
+	
+	v.push_back(new Vogel());
+	v.push_back(new Singvogel());
+	v.push_back(new SprechenderSingvogel());
+	
+	for (auto* pVogel : v)
+	{
+		pVogel->getKlasse();
+		pVogel->fliege();
+
+		// Singvogel* pSV = static_cast<Singvogel*>(pVogel);
+		
+		auto* pSV = dynamic_cast<Singvogel*>(pVogel);
+
+		if (pSV)
+			pSV->singe();
+
+		auto* pSSV = dynamic_cast<SprechenderSingvogel*>(pVogel);
+
+		if (pSSV)
+			pSSV->sprich();
+
+		delete pVogel;
+	}
+
+	cout << endl;
+
+	v.clear();
+
+	A* pA = new A();
+	B* pB = new B();
+	C* pC = new C();
+
+	delete pA;
+	delete pB;
+	delete pC;
+
+	cout << endl;
+
+	vector<A*> va = vector<A*>();
+
+	va.push_back(new A());
+	va.push_back(new B());
+	va.push_back(new C());
+
+	for (auto* a : va)
+	{
+		a->ausgabe();
+
+		delete a;
+	}
+
+	cout << endl;
 
 	return EXIT_SUCCESS;
 }
